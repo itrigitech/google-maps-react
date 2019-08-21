@@ -130,16 +130,24 @@
       key: 'componentDidMount',
       value: function componentDidMount() {
         this.markerPromise = wrappedPromise();
-        this.renderMarker();
+        setTimeout(()=>{this.renderMarker()}, 0);
       }
     }, {
+      //TODO create a fork and improve the plugin
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps) {
-        if (this.props.map !== prevProps.map || this.props.position !== prevProps.position || this.props.icon !== prevProps.icon) {
-          if (this.marker) {
-            this.marker.setMap(null);
-          }
-          this.renderMarker();
+        // if ( this.props.position.lat !== prevProps.position.lat || this.props.icon.url !== prevProps.icon.url) {
+        if (this.props.position.lat !== prevProps.position.lat ||  !_lodash._isEqual(this.props.icon, prevProps.icon)){
+          // if (this.marker) {
+          //   this.marker.setMap(null);
+          // }
+          // this.renderMarker();
+
+          var result = [this.props.position.lat, this.props.position.lng];
+          var PrevResult = [ prevProps.position.lat,  prevProps.position.lng];
+
+          var latlng = new google.maps.LatLng(PrevResult[0], PrevResult[1]);
+          if (this.marker) this.marker.setPosition(latlng);
         }
       }
     }, {
