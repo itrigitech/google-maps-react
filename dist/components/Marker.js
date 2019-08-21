@@ -130,16 +130,23 @@
       key: 'componentDidMount',
       value: function componentDidMount() {
         this.markerPromise = wrappedPromise();
-        this.renderMarker();
+        setTimeout(()=>{this.renderMarker()}, 0)
       }
     }, {
+      //TODO create a fork and improve the plugin
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps) {
-        if (this.props.map !== prevProps.map || this.props.position !== prevProps.position || this.props.icon !== prevProps.icon) {
-          if (this.marker) {
-            this.marker.setMap(null);
-          }
-          this.renderMarker();
+        if ( this.props.position.lat !== prevProps.position.lat || this.props.icon.url !== prevProps.icon.url) {
+          // if (this.marker) {
+          //   this.marker.setMap(null);
+          // }
+          // this.renderMarker();
+
+          var result = [this.props.position.lat, this.props.position.lng];
+          var PrevResult = [ prevProps.position.lat,  prevProps.position.lng];
+
+          var latlng = new google.maps.LatLng(PrevResult[0], PrevResult[1]);
+          if (this.marker) this.marker.setPosition(latlng);
         }
       }
     }, {
@@ -191,6 +198,32 @@
         this.markerPromise.resolve(this.marker);
       }
     }, {
+      key: 'transition',
+      value: function transition(result, prevResult){
+        let numDeltas=1;
+        let i = 0;
+        let deltaLat = (result[0] - prevResult[0]) / numDeltas;
+        let deltaLng = (result[1] - prevResult[1]) / numDeltas;
+        this.moveMarker(i, deltaLat, deltaLng, prevResult);
+      }
+    },
+      {
+        key: 'moveMarker',
+        value: function moveMarker(i, deltaLat,deltaLng, prevResult) {
+          let numDeltas=1;
+          if (prevResult[0]){
+            prevResult[0] += deltaLat;
+            prevResult[1] += deltaLng;
+            var latlng = new google.maps.LatLng(prevResult[0], prevResult[1]);
+            if (this.marker) this.marker.setPosition(latlng);
+            if(i!=numDeltas){
+              i++;
+              setTimeout(()=>{this.moveMarker(i, deltaLat, deltaLng, prevResult)}, 0);
+            }
+          }
+
+        }
+      }, {
       key: 'getMarker',
       value: function getMarker() {
         return this.markerPromise;
