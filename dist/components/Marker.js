@@ -1,16 +1,16 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', 'react', 'prop-types', '../lib/String'], factory);
+    define(['exports', 'react', 'prop-types', '../lib/String', 'lodash'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('react'), require('prop-types'), require('../lib/String'));
+    factory(exports, require('react'), require('prop-types'), require('../lib/String'),  require('lodash'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.react, global.propTypes, global.String);
+    factory(mod.exports, global.react, global.propTypes, global.String, global.lodash);
     global.Marker = mod.exports;
   }
-})(this, function (exports, _react, _propTypes, _String) {
+})(this, function (exports, _react, _propTypes, _String, _lodash) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -130,13 +130,14 @@
       key: 'componentDidMount',
       value: function componentDidMount() {
         this.markerPromise = wrappedPromise();
-        setTimeout(()=>{this.renderMarker()}, 0)
+        setTimeout(()=>{this.renderMarker()}, 0);
       }
     }, {
       //TODO create a fork and improve the plugin
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps) {
-        if ( this.props.position.lat !== prevProps.position.lat || this.props.icon.url !== prevProps.icon.url) {
+        // if ( this.props.position.lat !== prevProps.position.lat || this.props.icon.url !== prevProps.icon.url) {
+        if (this.props.position.lat !== prevProps.position.lat ||  !_lodash._isEqual(this.props.icon, prevProps.icon)){
           // if (this.marker) {
           //   this.marker.setMap(null);
           // }
@@ -198,32 +199,6 @@
         this.markerPromise.resolve(this.marker);
       }
     }, {
-      key: 'transition',
-      value: function transition(result, prevResult){
-        let numDeltas=1;
-        let i = 0;
-        let deltaLat = (result[0] - prevResult[0]) / numDeltas;
-        let deltaLng = (result[1] - prevResult[1]) / numDeltas;
-        this.moveMarker(i, deltaLat, deltaLng, prevResult);
-      }
-    },
-      {
-        key: 'moveMarker',
-        value: function moveMarker(i, deltaLat,deltaLng, prevResult) {
-          let numDeltas=1;
-          if (prevResult[0]){
-            prevResult[0] += deltaLat;
-            prevResult[1] += deltaLng;
-            var latlng = new google.maps.LatLng(prevResult[0], prevResult[1]);
-            if (this.marker) this.marker.setPosition(latlng);
-            if(i!=numDeltas){
-              i++;
-              setTimeout(()=>{this.moveMarker(i, deltaLat, deltaLng, prevResult)}, 0);
-            }
-          }
-
-        }
-      }, {
       key: 'getMarker',
       value: function getMarker() {
         return this.markerPromise;
@@ -243,7 +218,13 @@
     }, {
       key: 'render',
       value: function render() {
-        return null;
+        return _react2.default.createElement(
+          _react.Fragment,
+          null,
+          this.props.children && this.marker ? _react2.default.Children.only(_react2.default.cloneElement(this.props.children, { marker: this.marker,
+            google: this.props.google,
+            map: this.props.map })) : null
+        );
       }
     }]);
 
