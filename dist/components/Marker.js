@@ -136,8 +136,7 @@
       //TODO create a fork and improve the plugin
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps) {
-        // if ( this.props.position.lat !== prevProps.position.lat || this.props.icon.url !== prevProps.icon.url) {
-        if (this.props.position.lat !== prevProps.position.lat ||  !_lodash._isEqual(this.props.icon, prevProps.icon)){
+         if ( this.props.position.lat !== prevProps.position.lat || this.props.icon.url !== prevProps.icon.url) {
           // if (this.marker) {
           //   this.marker.setMap(null);
           // }
