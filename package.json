@@ -80,8 +80,5 @@
   "peerDependencies": {
     "react": "~0.14.8 || ^15.0.0 || ^16.0.0",
     "react-dom": "~0.14.8 || ^15.0.0 || ^16.0.0"
-  },
-  "dependencies": {
-    "lodash": "^4.17.15"
   }
 }
