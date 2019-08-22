@@ -108,9 +108,9 @@ var isEqual = require('lodash/isEqual');
   var wrappedPromise = function wrappedPromise() {
     var wrappedPromise = {},
         promise = new Promise(function (resolve, reject) {
-      wrappedPromise.resolve = resolve;
-      wrappedPromise.reject = reject;
-    });
+          wrappedPromise.resolve = resolve;
+          wrappedPromise.reject = reject;
+        });
     wrappedPromise.then = promise.then.bind(promise);
     wrappedPromise.catch = promise.catch.bind(promise);
     wrappedPromise.promise = promise;
@@ -134,23 +134,32 @@ var isEqual = require('lodash/isEqual');
         setTimeout(()=>{this.renderMarker()}, 0);
       }
     }, {
-      //TODO create a fork and improve the plugin
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps) {
-        if (isEqual({a:"a"}),{a:"b"}){
-          console.debug("is equal")
-        }
-         if ( this.props.position.lat !== prevProps.position.lat || this.props.icon.url !== prevProps.icon.url) {
-          // if (this.marker) {
-          //   this.marker.setMap(null);
-          // }
-          // this.renderMarker();
-
-          var result = [this.props.position.lat, this.props.position.lng];
-          var PrevResult = [ prevProps.position.lat,  prevProps.position.lng];
-
-          var latlng = new google.maps.LatLng(PrevResult[0], PrevResult[1]);
-          if (this.marker) this.marker.setPosition(latlng);
+        if ( !isEqual(this.props, prevProps)) {
+          if (!isEqual(this.props.position, prevProps.position)){
+            if (prevProps.position !== undefined){
+              var result = [this.props.position.lat, this.props.position.lng];
+              var PrevResult = [ prevProps.position.lat,  prevProps.position.lng];
+              var latlng = new google.maps.LatLng(PrevResult[0], PrevResult[1]);
+              if (this.marker) this.marker.setPosition(latlng);
+            }
+          }else{
+            if (!isEqual(this.props.icon, prevProps.icon)) {
+              this.marker.setIcon(this.props.icon);
+            }else{
+              if (!isEqual(this.props.title,prevProps.title)){
+                if (this.marker ) {
+                  this.marker.setTitle(this.props.title);
+                }
+              }else{
+                if (this.marker ) {
+                  this.marker.setMap(null);
+                }
+                this.renderMarker();
+              }
+            }
+          }
         }
       }
     }, {
@@ -222,11 +231,11 @@ var isEqual = require('lodash/isEqual');
       key: 'render',
       value: function render() {
         return _react2.default.createElement(
-          _react.Fragment,
-          null,
-          this.props.children && this.marker ? _react2.default.Children.only(_react2.default.cloneElement(this.props.children, { marker: this.marker,
-            google: this.props.google,
-            map: this.props.map })) : null
+            _react.Fragment,
+            null,
+            this.props.children && this.marker ? _react2.default.Children.only(_react2.default.cloneElement(this.props.children, { marker: this.marker,
+              google: this.props.google,
+              map: this.props.map })) : null
         );
       }
     }]);
