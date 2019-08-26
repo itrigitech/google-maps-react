@@ -145,20 +145,23 @@ var isEqual = require('lodash/isEqual');
               if (this.marker) this.marker.setPosition(latlng);
             }
           }else{
-            if (!isEqual(this.props.icon, prevProps.icon)) {
-              this.marker.setIcon(this.props.icon);
-            }else{
-              if (!isEqual(this.props.title,prevProps.title)){
-                if (this.marker ) {
-                  this.marker.setTitle(this.props.title);
+            if (this.marker ) {
+              if (!isEqual(this.props.icon, prevProps.icon)) {
+                this.marker.setIcon(this.props.icon);
+              } else {
+                if (!isEqual(this.props.title, prevProps.title)) {
+                  if (this.marker) {
+                    this.marker.setTitle(this.props.title);
+                  }
+                } else {
+                  if (this.marker) {
+                    this.marker.setMap(null);
+                  }
+                  this.renderMarker();
                 }
-              }else{
-                if (this.marker ) {
-                  this.marker.setMap(null);
-                }
-                this.renderMarker();
               }
             }
+
           }
         }
       }
