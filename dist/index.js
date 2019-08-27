@@ -208,6 +208,9 @@
         if (this.props.bounds && this.props.bounds !== prevProps.bounds) {
           this.map.fitBounds(this.props.bounds);
         }
+        if (this.props.mapType && this.props.mapType !== prevProps.mapType) {
+          this.map.setMapTypeId(this.props.mapType);
+        }
       }
     }, {
       key: 'componentWillUnmount',
@@ -277,6 +280,14 @@
           });
 
           this.map = new maps.Map(node, mapConfig);
+
+          if (this.props.typeMap){
+            var styledMapType = new google.maps.StyledMapType(
+                this.props.typeMap[0], {name:this.props.typeMap[1]}
+            );
+            this.map.mapTypes.set(this.props.typeMap[1], styledMapType);
+            this.map.setMapTypeId( this.props.mapType);
+          }
 
           evtNames.forEach(function (e) {
             _this4.listeners[e] = _this4.map.addListener(e, _this4.handleEvent(e));
