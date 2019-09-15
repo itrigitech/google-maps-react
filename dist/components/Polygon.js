@@ -1,3 +1,4 @@
+var isEqual = require('lodash/isEqual');
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(['exports', 'react', 'prop-types', '../lib/arePathsEqual', '../lib/String'], factory);
@@ -135,7 +136,7 @@
     }, {
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps) {
-        if (this.props.map !== prevProps.map || !(0, _arePathsEqual.arePathsEqual)(this.props.paths, prevProps.paths)) {
+        if (this.props.map !== prevProps.map || !isEqual(this.props, prevProps)) {
           if (this.polygon) {
             this.polygon.setMap(null);
           }
