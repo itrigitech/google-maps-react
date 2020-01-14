@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { arePathsEqual } from '../lib/arePathsEqual';
 import { camelize } from '../lib/String';
-const evtNames = ['click', 'mouseout', 'mouseover'];
+const evtNames = ['click', 'rightclick', 'mouseout', 'mouseover'];
 
 const wrappedPromise = function() {
     var wrappedPromise = {},
