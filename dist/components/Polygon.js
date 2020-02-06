@@ -136,7 +136,7 @@ var isEqual = require('lodash/isEqual');
     }, {
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps) {
-        if (this.props.map !== prevProps.map || !isEqual(this.props, prevProps)) {
+        if (!isEqual(prevProps, this.props) || this.props.map !== prevProps.map || !(0, _arePathsEqual.arePathsEqual)(this.props.paths, prevProps.paths)) {
           if (this.polygon) {
             this.polygon.setMap(null);
           }
