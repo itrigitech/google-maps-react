@@ -163,12 +163,17 @@
             path = _props.path,
             map = _props.map;
 
+        if (!isEqual(prevProps, _props) || map !== prevProps.map || !(0, _arePathsEqual.arePathsEqual)(path, prevProps.path)) {
+          if (prevProps.radius !== _props.radius){
+            this.circle.setRadius(_props.radius)
+          }else{
+            this.destroyCircle();
+            this.renderCircle();
+          }
 
-        if (this.propsChanged(prevProps) || map !== prevProps.map || !(0, _arePathsEqual.arePathsEqual)(path, prevProps.path)) {
-          this.destroyCircle();
-          this.renderCircle();
         }
       }
+
     }, {
       key: 'componentWillUnmount',
       value: function componentWillUnmount() {
