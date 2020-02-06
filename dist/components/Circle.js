@@ -1,3 +1,4 @@
+var isEqual = require('lodash/isEqual');
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(['exports', 'react', 'prop-types', '../lib/arePathsEqual', '../lib/String'], factory);
