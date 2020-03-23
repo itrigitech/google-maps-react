@@ -135,7 +135,7 @@
     }, {
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps) {
-        if (this.props.map !== prevProps.map || this.props.position !== prevProps.position) {
+        if (this.props.map !== prevProps.map || this.props.positions !== prevProps.positions || this.props.opacity !== prevProps.opacity) {
           if (this.heatMap) {
             this.heatMap.setMap(null);
             this.renderHeatMap();
