@@ -103,14 +103,15 @@ var isEqual = require('lodash/isEqual');
     if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
   }
 
-  var evtNames = ['click','rightclick', 'mouseout', 'mouseover'];
+  var evtNames = ['click','rightclick', 'mouseout', 'mouseover', 'dragend'];
+  var evtPathNames = ['set_at','insert_at'];
 
   var wrappedPromise = function wrappedPromise() {
     var wrappedPromise = {},
         promise = new Promise(function (resolve, reject) {
-      wrappedPromise.resolve = resolve;
-      wrappedPromise.reject = reject;
-    });
+          wrappedPromise.resolve = resolve;
+          wrappedPromise.reject = reject;
+        });
     wrappedPromise.then = promise.then.bind(promise);
     wrappedPromise.catch = promise.catch.bind(promise);
     wrappedPromise.promise = promise;
@@ -137,10 +138,22 @@ var isEqual = require('lodash/isEqual');
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps) {
         if (this.props.map !== prevProps.map ||  !isEqual(this.props, prevProps)) {
-          if (this.polyline) {
-            this.polyline.setMap(null);
+          if (!isEqual(this.props.path, prevProps.path)){
+            if (this.polyline) {
+              this.polyline.setPath(this.props.path)
+
+              evtPathNames.forEach( (e)=> {
+                this.polyline.getPath().addListener(e, this.handleEvent(e));
+              });
+            }else{
+              this.renderPolyline();
+            }
+          }else {
+            if (this.polyline) {
+              this.polyline.setMap(null);
+            }
+            this.renderPolyline();
           }
-          this.renderPolyline();
         }
       }
     }, {
@@ -182,6 +195,10 @@ var isEqual = require('lodash/isEqual');
           _this2.polyline.addListener(e, _this2.handleEvent(e));
         });
 
+        evtPathNames.forEach(function (e) {
+          _this2.polyline.getPath().addListener(e, _this2.handleEvent(e));
+        });
+
         this.polylinePromise.resolve(this.polyline);
       }
     }, {
@@ -219,6 +236,10 @@ var isEqual = require('lodash/isEqual');
   };
 
   evtNames.forEach(function (e) {
+    return Polyline.propTypes[e] = _propTypes2.default.func;
+  });
+
+  evtPathNames.forEach(function (e) {
     return Polyline.propTypes[e] = _propTypes2.default.func;
   });
 

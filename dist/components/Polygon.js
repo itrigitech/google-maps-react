@@ -103,14 +103,15 @@ var isEqual = require('lodash/isEqual');
     if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
   }
 
-  var evtNames = ['click','rightclick', 'mouseout', 'mouseover'];
+  var evtNames = ['click', 'rightclick', 'mouseout', 'mouseover', 'mousemove'];
+  var evtPathNames = ['set_at','insert_at'];
 
   var wrappedPromise = function wrappedPromise() {
     var wrappedPromise = {},
         promise = new Promise(function (resolve, reject) {
-      wrappedPromise.resolve = resolve;
-      wrappedPromise.reject = reject;
-    });
+          wrappedPromise.resolve = resolve;
+          wrappedPromise.reject = reject;
+        });
     wrappedPromise.then = promise.then.bind(promise);
     wrappedPromise.catch = promise.catch.bind(promise);
     wrappedPromise.promise = promise;
@@ -137,10 +138,23 @@ var isEqual = require('lodash/isEqual');
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps) {
         if (!isEqual(prevProps, this.props) || this.props.map !== prevProps.map || !(0, _arePathsEqual.arePathsEqual)(this.props.paths, prevProps.paths)) {
-          if (this.polygon) {
-            this.polygon.setMap(null);
+          if(!(0, _arePathsEqual.arePathsEqual)(this.props.paths, prevProps.paths)){
+            if (this.polygon) {
+              this.polygon.setPaths(this.props.paths)
+              evtPathNames.forEach( (e) =>{
+                this.polygon.getPaths().forEach(path=>{
+                  path.addListener(e, this.handleEvent(e));
+                })
+              });
+            }else{
+              this.renderPolygon();
+            }
+          }else{
+            if (this.polygon) {
+              this.polygon.setMap(null);
+            }
+            this.renderPolygon();
           }
-          this.renderPolygon();
         }
       }
     }, {
@@ -184,6 +198,12 @@ var isEqual = require('lodash/isEqual');
 
         evtNames.forEach(function (e) {
           _this2.polygon.addListener(e, _this2.handleEvent(e));
+        });
+
+        evtPathNames.forEach(function (e) {
+          _this2.polygon.getPaths().forEach(path=>{
+            path.addListener(e, _this2.handleEvent(e));
+          })
         });
 
         this.polygonPromise.resolve(this.polygon);
