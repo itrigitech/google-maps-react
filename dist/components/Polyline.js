@@ -137,22 +137,24 @@ var isEqual = require('lodash/isEqual');
     }, {
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps) {
-        if (this.props.map !== prevProps.map ||  !isEqual(this.props, prevProps)) {
-          if (!isEqual(this.props.path, prevProps.path)){
-            if (this.polyline) {
-              this.polyline.setPath(this.props.path)
+        if (this.props.map !== prevProps.map){
+          if (this.polyline) {
+            this.polyline.setMap(null);
+          }
+          this.renderPolyline();
+        }else{
+          if (!isEqual(this.props, prevProps)) {
+            if (!isEqual(this.props.path, prevProps.path)){
+              if (this.polyline) {
+                this.polyline.setPath(this.props.path)
 
-              evtPathNames.forEach( (e)=> {
-                this.polyline.getPath().addListener(e, this.handleEvent(e));
-              });
-            }else{
-              this.renderPolyline();
+                evtPathNames.forEach( (e)=> {
+                  this.polyline.getPath().addListener(e, this.handleEvent(e));
+                });
+              }else{
+                this.renderPolyline();
+              }
             }
-          }else {
-            if (this.polyline) {
-              this.polyline.setMap(null);
-            }
-            this.renderPolyline();
           }
         }
       }
