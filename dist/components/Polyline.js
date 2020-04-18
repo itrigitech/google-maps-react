@@ -154,6 +154,11 @@ var isEqual = require('lodash/isEqual');
               }else{
                 this.renderPolyline();
               }
+            }else if (this.props.strokeWeight !== prevProps.strokeWeight){
+              if (this.polyline) {
+                this.polyline.setMap(null);
+              }
+              this.renderPolyline();
             }
           }
         }
