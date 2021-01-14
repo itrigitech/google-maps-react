@@ -144,7 +144,7 @@ var isEqual = require('lodash/isEqual');
               var latlng = new google.maps.LatLng(result[0], result[1]);
               if (this.marker) this.marker.setPosition(latlng);
               if (!isEqual(this.props.icon, prevProps.icon)) {
-                this.marker.setIcon(this.props.icon);
+                this.marker && this.marker.setIcon(this.props.icon);
               }
             }
           }else{
