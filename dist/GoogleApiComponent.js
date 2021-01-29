@@ -189,6 +189,10 @@
 
             // Store information about loading container
             this.LoadingContainer = options.LoadingContainer || DefaultLoadingContainer;
+            //Fallback if not loading in 5 seconds
+            setTimeout(()=>{
+              this.setState({ loaded: true, google: null });
+            },5000)
           }
         }, {
           key: 'onLoad',
