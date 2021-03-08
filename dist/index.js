@@ -211,6 +211,9 @@
         if (this.props.mapType && this.props.mapType !== prevProps.mapType) {
           this.map.setMapTypeId(this.props.mapType);
         }
+        if (this.props.draggableCursor && this.props.draggableCursor !== prevProps.draggableCursor) {
+          this.map.setOptions({ draggableCursor: this.props.draggableCursor });
+        }
       }
     }, {
       key: 'componentWillUnmount',
