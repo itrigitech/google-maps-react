@@ -104,7 +104,7 @@ var isEqual = require('lodash/isEqual');
   }
 
   var evtNames = ['click','rightclick', 'mouseout', 'mouseover', 'dragend'];
-  var evtPathNames = ['set_at','insert_at'];
+  var evtPathNames = ['set_at','insert_at', 'remove_at'];
 
   var wrappedPromise = function wrappedPromise() {
     var wrappedPromise = {},
