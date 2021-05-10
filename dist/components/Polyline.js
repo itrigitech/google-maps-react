@@ -154,7 +154,7 @@ var isEqual = require('lodash/isEqual');
               }else{
                 this.renderPolyline();
               }
-            }else if (this.props.strokeWeight !== prevProps.strokeWeight || this.props.editable !== prevProps.editable){
+            }else if (this.props.strokeWeight !== prevProps.strokeWeight || this.props.editable !== prevProps.editable || this.props.strokeColor !== prevProps.strokeColor){
               if (this.polyline) {
                 this.polyline.setMap(null);
               }
