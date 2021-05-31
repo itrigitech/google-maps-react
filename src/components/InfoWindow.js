@@ -2,11 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import ReactDOMServer from 'react-dom/server'
+var isEqual = require('lodash/isEqual');
 
 export class InfoWindow extends React.Component {
 
   componentDidMount() {
     this.renderInfoWindow();
+    if (this.props.visible && this.props.marker) {
+      this.updateContent();
+      this.openWindow();
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -20,17 +25,14 @@ export class InfoWindow extends React.Component {
       this.renderInfoWindow();
     }
 
-    if (this.props.position !== prevProps.position) {
       this.updatePosition();
-    }
+
 
     if (this.props.children !== prevProps.children) {
       this.updateContent();
     }
 
-    if ((this.props.visible !== prevProps.visible ||
-        this.props.marker !== prevProps.marker ||
-        this.props.position !== prevProps.position)) {
+    if (this.props.visible !== prevProps.visible || !isEqual(this.props.marker, prevProps.marker)) {
         this.props.visible ?
           this.openWindow() :
           this.closeWindow();
