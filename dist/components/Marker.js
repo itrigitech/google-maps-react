@@ -157,10 +157,14 @@ var isEqual = require('lodash/isEqual');
                     this.marker.setTitle(this.props.title);
                   }
                 } else {
-                  if (this.marker) {
-                    this.marker.setMap(null);
+                  if(this.props.draggable !== prevProps.draggable){
+                    this.marker.setDraggable(this.props.draggable);
+                  }else {
+                    if (this.marker) {
+                      this.marker.setMap(null);
+                    }
+                    this.renderMarker();
                   }
-                  this.renderMarker();
                 }
               }
             }
