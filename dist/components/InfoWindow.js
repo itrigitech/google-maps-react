@@ -1,4 +1,3 @@
-var isEqual = require('lodash/isEqual');
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(['exports', 'react', 'prop-types', 'react-dom', 'react-dom/server'], factory);
@@ -143,7 +142,7 @@ var isEqual = require('lodash/isEqual');
 
         this.updatePosition();
 
-        if (this.props.visible !== prevProps.visible || !isEqual(this.props.marker, prevProps.marker)) {
+        if (this.props.visible !== prevProps.visible) {
           this.props.visible ? this.openWindow() : this.closeWindow();
         }
 

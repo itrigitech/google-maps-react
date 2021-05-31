@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import ReactDOMServer from 'react-dom/server'
-var isEqual = require('lodash/isEqual');
 
 export class InfoWindow extends React.Component {
 
@@ -32,7 +31,7 @@ export class InfoWindow extends React.Component {
       this.updateContent();
     }
 
-    if (this.props.visible !== prevProps.visible || !isEqual(this.props.marker, prevProps.marker)) {
+    if (this.props.visible !== prevProps.visible )  {
         this.props.visible ?
           this.openWindow() :
           this.closeWindow();
