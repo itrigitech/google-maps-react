@@ -119,6 +119,10 @@
       key: 'componentDidMount',
       value: function componentDidMount() {
         this.renderInfoWindow();
+        if(this.props.visible && this.props.marker) {
+          this.updateContent();
+          this.openWindow();
+        }
       }
     }, {
       key: 'componentDidUpdate',
@@ -136,17 +140,17 @@
           this.renderInfoWindow();
         }
 
-        if (this.props.position !== prevProps.position) {
-          this.updatePosition();
+        this.updatePosition();
+
+        if (this.props.visible !== prevProps.visible || !isEqual(this.props.marker, prevProps.marker)) {
+          this.props.visible ? this.openWindow() : this.closeWindow();
         }
 
         if (this.props.children !== prevProps.children) {
           this.updateContent();
         }
 
-        if (this.props.visible !== prevProps.visible || this.props.marker !== prevProps.marker || this.props.position !== prevProps.position) {
-          this.props.visible ? this.openWindow() : this.closeWindow();
-        }
+
       }
     }, {
       key: 'renderInfoWindow',
