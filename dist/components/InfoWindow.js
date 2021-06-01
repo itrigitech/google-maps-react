@@ -119,7 +119,7 @@
       key: 'componentDidMount',
       value: function componentDidMount() {
         this.renderInfoWindow();
-        if(this.props.visible && this.props.marker) {
+        if(this.props.visible) {
           this.updateContent();
           this.openWindow();
         }
