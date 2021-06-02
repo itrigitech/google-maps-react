@@ -198,7 +198,7 @@
         if (!(pos instanceof google.maps.LatLng)) {
           pos = pos && new google.maps.LatLng(pos.lat, pos.lng);
         }
-        this.infowindow.setPosition(pos);
+        pos && this.infowindow.setPosition(pos);
       }
     }, {
       key: 'updateContent',
