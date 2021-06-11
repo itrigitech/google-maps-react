@@ -136,7 +136,7 @@ var isEqual = require('lodash/isEqual');
     }, {
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps) {
-        if ( !isEqual(this.props, prevProps)) {
+        if ( !isEqual({...this.props, mapCenter:null}, {...prevProps, mapCenter:null}) ) {
           if (!isEqual(this.props.position, prevProps.position)){
             if (prevProps.position !== undefined){
               var result = [this.props.position.lat, this.props.position.lng];
