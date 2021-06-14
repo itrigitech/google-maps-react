@@ -37,19 +37,19 @@ export class Marker extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if ( !isEqual({...this.props, mapCenter:null}, {...prevProps, mapCenter:null}) ) {
-      if (!isEqual(this.props.position, prevProps.position)){
+    if (!isEqual({...this.props, mapCenter:null}, {...prevProps, mapCenter:null})) {
+      if (!isEqual(this.props.position, prevProps.position)) {
         if (prevProps.position !== undefined) {
           let result = [this.props.position.lat, this.props.position.lng];
-          let PrevResult = [ prevProps.position.lat,  prevProps.position.lng];
+          let PrevResult = [prevProps.position.lat,  prevProps.position.lng];
           let latlng = new google.maps.LatLng(result[0], result[1]);
           if (this.marker) this.marker.setPosition(latlng);
           if (!isEqual(this.props.icon, prevProps.icon)) {
             this.marker && this.marker.setIcon(this.props.icon);
           }
         }
-      }else{
-        if (this.marker ) {
+      } else {
+        if (this.marker) {
           if (!isEqual(this.props.icon, prevProps.icon)) {
             this.marker.setIcon(this.props.icon);
           } else {
@@ -58,9 +58,9 @@ export class Marker extends React.Component {
                 this.marker.setTitle(this.props.title);
               }
             } else {
-              if(this.props.draggable !== prevProps.draggable){
+              if (this.props.draggable !== prevProps.draggable) {
                 this.marker.setDraggable(this.props.draggable);
-              }else {
+              } else {
                 if (this.marker) {
                   this.marker.setMap(null);
                 }

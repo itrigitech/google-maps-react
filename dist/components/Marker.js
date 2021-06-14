@@ -1,8 +1,8 @@
 var isEqual = require('lodash/isEqual');
 (function (global, factory) {
-  if (typeof define === "function" && define.amd) {
+  if (typeof define === 'function' && define.amd) {
     define(['exports', 'react', 'prop-types', '../lib/String'], factory);
-  } else if (typeof exports !== "undefined") {
+  } else if (typeof exports !== 'undefined') {
     factory(exports, require('react'), require('prop-types'), require('../lib/String'));
   } else {
     var mod = {
@@ -14,7 +14,7 @@ var isEqual = require('lodash/isEqual');
 })(this, function (exports, _react, _propTypes, _String) {
   'use strict';
 
-  Object.defineProperty(exports, "__esModule", {
+  Object.defineProperty(exports, '__esModule', {
     value: true
   });
   exports.Marker = undefined;
@@ -57,7 +57,7 @@ var isEqual = require('lodash/isEqual');
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
+      throw new TypeError('Cannot call a class as a function');
     }
   }
 
@@ -67,7 +67,7 @@ var isEqual = require('lodash/isEqual');
         var descriptor = props[i];
         descriptor.enumerable = descriptor.enumerable || false;
         descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
+        if ('value' in descriptor) descriptor.writable = true;
         Object.defineProperty(target, descriptor.key, descriptor);
       }
     }
@@ -81,15 +81,15 @@ var isEqual = require('lodash/isEqual');
 
   function _possibleConstructorReturn(self, call) {
     if (!self) {
-      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+      throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called');
     }
 
-    return call && (typeof call === "object" || typeof call === "function") ? call : self;
+    return call && (typeof call === 'object' || typeof call === 'function') ? call : self;
   }
 
   function _inherits(subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    if (typeof superClass !== 'function' && superClass !== null) {
+      throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);
     }
 
     subClass.prototype = Object.create(superClass && superClass.prototype, {
@@ -136,30 +136,32 @@ var isEqual = require('lodash/isEqual');
     }, {
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps) {
-        if ( !isEqual({...this.props, mapCenter:null}, {...prevProps, mapCenter:null}) ) {
-          if (!isEqual(this.props.position, prevProps.position)){
-            if (prevProps.position !== undefined){
-              var result = [this.props.position.lat, this.props.position.lng];
-              var PrevResult = [ prevProps.position.lat,  prevProps.position.lng];
-              var latlng = new google.maps.LatLng(result[0], result[1]);
+        if (!isEqual({...this.props, mapCenter:null}, {...prevProps, mapCenter:null})) {
+          if (!isEqual(this.props.position, prevProps.position)) {
+            if (prevProps.position !== undefined) {
+              let result = [this.props.position.lat, this.props.position.lng];
+              let PrevResult = [prevProps.position.lat,  prevProps.position.lng];
+              let latlng = new google.maps.LatLng(result[0], result[1]);
               if (this.marker) this.marker.setPosition(latlng);
               if (!isEqual(this.props.icon, prevProps.icon)) {
                 this.marker && this.marker.setIcon(this.props.icon);
               }
             }
-          }else{
-            if (this.marker ) {
+          } else {
+            // eslint-disable-next-line no-lonely-if
+            if (this.marker) {
               if (!isEqual(this.props.icon, prevProps.icon)) {
                 this.marker.setIcon(this.props.icon);
               } else {
+                // eslint-disable-next-line no-lonely-if
                 if (!isEqual(this.props.title, prevProps.title)) {
                   if (this.marker) {
                     this.marker.setTitle(this.props.title);
                   }
                 } else {
-                  if(this.props.draggable !== prevProps.draggable){
+                  if (this.props.draggable !== prevProps.draggable) {
                     this.marker.setDraggable(this.props.draggable);
-                  }else {
+                  } else {
                     if (this.marker) {
                       this.marker.setMap(null);
                     }
