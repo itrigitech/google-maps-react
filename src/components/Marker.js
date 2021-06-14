@@ -1,5 +1,6 @@
 import React, {Fragment} from 'react'
 import PropTypes from 'prop-types'
+var isEqual = require('lodash/isEqual');
 
 import { camelize } from '../lib/String'
 
@@ -36,13 +37,40 @@ export class Marker extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if ((this.props.map !== prevProps.map) ||
-      (this.props.position !== prevProps.position) ||
-      (this.props.icon !== prevProps.icon)) {
-        if (this.marker) {
-            this.marker.setMap(null);
+    if ( !isEqual({...this.props, mapCenter:null}, {...prevProps, mapCenter:null}) ) {
+      if (!isEqual(this.props.position, prevProps.position)){
+        if (prevProps.position !== undefined) {
+          let result = [this.props.position.lat, this.props.position.lng];
+          let PrevResult = [ prevProps.position.lat,  prevProps.position.lng];
+          let latlng = new google.maps.LatLng(result[0], result[1]);
+          if (this.marker) this.marker.setPosition(latlng);
+          if (!isEqual(this.props.icon, prevProps.icon)) {
+            this.marker && this.marker.setIcon(this.props.icon);
+          }
         }
-        this.renderMarker();
+      }else{
+        if (this.marker ) {
+          if (!isEqual(this.props.icon, prevProps.icon)) {
+            this.marker.setIcon(this.props.icon);
+          } else {
+            if (!isEqual(this.props.title, prevProps.title)) {
+              if (this.marker) {
+                this.marker.setTitle(this.props.title);
+              }
+            } else {
+              if(this.props.draggable !== prevProps.draggable){
+                this.marker.setDraggable(this.props.draggable);
+              }else {
+                if (this.marker) {
+                  this.marker.setMap(null);
+                }
+                this.renderMarker();
+              }
+            }
+          }
+        }
+
+      }
     }
   }
 
