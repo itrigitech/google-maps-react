@@ -26,7 +26,7 @@ export class HeatMap extends React.Component {
 
   componentDidUpdate(prevProps) {
     if ((this.props.map !== prevProps.map) ||
-      (this.props.position !== prevProps.position)) {
+      (this.props.position !== prevProps.position || this.props.opacity !== prevProps.opacity)) {
         if (this.heatMap) {
           this.heatMap.setMap(null);
           this.renderHeatMap();

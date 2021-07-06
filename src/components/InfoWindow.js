@@ -7,7 +7,7 @@ export class InfoWindow extends React.Component {
 
   componentDidMount() {
     this.renderInfoWindow();
-    if (this.props.visible && this.props.marker) {
+    if (this.props.visible) {
       this.updateContent();
       this.openWindow();
     }
@@ -26,16 +26,14 @@ export class InfoWindow extends React.Component {
 
       this.updatePosition();
 
+    if (this.props.visible !== prevProps.visible) {
+      this.props.visible ? this.openWindow() : this.closeWindow();
+    }
 
     if (this.props.children !== prevProps.children) {
       this.updateContent();
     }
 
-    if (this.props.visible !== prevProps.visible )  {
-        this.props.visible ?
-          this.openWindow() :
-          this.closeWindow();
-    }
   }
 
   renderInfoWindow() {

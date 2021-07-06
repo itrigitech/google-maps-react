@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { arePathsEqual } from '../lib/arePathsEqual';
 import { camelize } from '../lib/String';
-const evtNames = ['click', 'rightclick', 'mouseout', 'mouseover'];
+const evtNames = ['click','rightclick', 'mouseout', 'mouseover', 'mousemove', 'radius_changed', 'center_changed'];
 var isEqual = require('lodash/isEqual');
 
 const wrappedPromise = function() {

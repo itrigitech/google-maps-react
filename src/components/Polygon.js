@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 
 import { arePathsEqual } from '../lib/arePathsEqual';
 import { camelize } from '../lib/String';
-const evtNames = ['click', 'rightclick', 'mouseout', 'mouseover'];
+const evtNames = ['click', 'rightclick', 'mouseout', 'mouseover', 'mousemove'];
+const evtPathNames = ['set_at','insert_at', 'remove_at'];
 
 const wrappedPromise = function() {
     var wrappedPromise = {},
@@ -25,14 +26,28 @@ export class Polygon extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      this.props.map !== prevProps.map ||
-      !arePathsEqual(this.props.paths, prevProps.paths)
-    ) {
-      if (this.polygon) {
-        this.polygon.setMap(null);
+    if (!isEqual(prevProps, this.props) || this.props.map !== prevProps.map || !arePathsEqual(this.props.paths, prevProps.paths)) {
+      if (
+          this.props.map !== prevProps.map ||
+          !arePathsEqual(this.props.paths, prevProps.paths)
+      ) {
+        if (this.polygon) {
+          this.polygon.setPaths(this.props.paths)
+          evtPathNames.forEach((e) => {
+            this.polygon.getPaths().forEach(path => {
+              path.addListener(e, this.handleEvent(e));
+            })
+          });
+        } else {
+          this.renderPolygon();
+        }
+        this.renderPolygon();
+      } else {
+        if (this.polygon) {
+          this.polygon.setMap(null);
+        }
+        this.renderPolygon();
       }
-      this.renderPolygon();
     }
   }
 

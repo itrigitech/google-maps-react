@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 
 import { arePathsEqual } from '../lib/arePathsEqual';
 import { camelize } from '../lib/String';
-const evtNames = ['click', 'rightclick',  'mouseout', 'mouseover'];
+const evtNames = ['click','rightclick', 'mouseout', 'mouseover', 'dragend'];
+const evtPathNames = ['set_at','insert_at', 'remove_at'];
 
 const wrappedPromise = function() {
     var wrappedPromise = {},
@@ -26,14 +27,30 @@ export class Polyline extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      this.props.map !== prevProps.map ||
-      !arePathsEqual(this.props.path, prevProps.path)
-    ) {
+    if (this.props.map !== prevProps.map){
       if (this.polyline) {
         this.polyline.setMap(null);
       }
       this.renderPolyline();
+    }else{
+      if (!isEqual(this.props, prevProps)) {
+        if (!isEqual(this.props.path, prevProps.path)){
+          if (this.polyline) {
+            this.polyline.setPath(this.props.path)
+
+            evtPathNames.forEach( (e)=> {
+              this.polyline.getPath().addListener(e, this.handleEvent(e));
+            });
+          }else{
+            this.renderPolyline();
+          }
+        }else if (this.props.strokeWeight !== prevProps.strokeWeight || this.props.editable !== prevProps.editable || this.props.strokeColor !== prevProps.strokeColor){
+          if (this.polyline) {
+            this.polyline.setMap(null);
+          }
+          this.renderPolyline();
+        }
+      }
     }
   }
 
