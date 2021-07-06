@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+var isEqual = require('lodash/isEqual');
 import { arePathsEqual } from '../lib/arePathsEqual';
 import { camelize } from '../lib/String';
 const evtNames = ['click', 'rightclick', 'mouseout', 'mouseover', 'mousemove'];
