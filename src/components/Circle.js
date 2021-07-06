@@ -27,7 +27,7 @@ export class Circle extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { path, map } = this.props;
-
+    console.debug("test")
     if (
       this.propsChanged(prevProps) ||
       map !== prevProps.map ||
