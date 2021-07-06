@@ -138,7 +138,7 @@ var isEqual = require('lodash/isEqual');
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps) {
         if (!isEqual(prevProps, this.props) || this.props.map !== prevProps.map || !(0, _arePathsEqual.arePathsEqual)(this.props.paths, prevProps.paths)) {
-          if(!(0, _arePathsEqual.arePathsEqual)(this.props.paths, prevProps.paths)){
+          if (!(0, _arePathsEqual.arePathsEqual)(this.props.paths, prevProps.paths)) {
             if (this.polygon) {
               this.polygon.setPaths(this.props.paths)
               evtPathNames.forEach( (e) =>{
@@ -146,10 +146,10 @@ var isEqual = require('lodash/isEqual');
                   path.addListener(e, this.handleEvent(e));
                 })
               });
-            }else{
+            } else {
               this.renderPolygon();
             }
-          }else{
+          } else {
             if (this.polygon) {
               this.polygon.setMap(null);
             }

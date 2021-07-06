@@ -41,7 +41,6 @@ export class Polygon extends React.Component {
         } else {
           this.renderPolygon();
         }
-        this.renderPolygon();
       } else {
         if (this.polygon) {
           this.polygon.setMap(null);
