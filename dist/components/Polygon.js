@@ -141,7 +141,7 @@ var isEqual = require('lodash/isEqual');
           if (!(0, _arePathsEqual.arePathsEqual)(this.props.paths, prevProps.paths)) {
             if (this.polygon) {
               this.polygon.setPaths(this.props.paths)
-              evtPathNames.forEach( (e) =>{
+              evtPathNames.forEach((e) =>{
                 this.polygon.getPaths().forEach(path=>{
                   path.addListener(e, this.handleEvent(e));
                 })

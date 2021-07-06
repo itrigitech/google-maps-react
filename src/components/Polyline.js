@@ -90,6 +90,10 @@ export class Polyline extends React.Component {
       this.polyline.addListener(e, this.handleEvent(e));
     });
 
+    evtPathNames.forEach(e => {
+      this.polyline.addListener(e, this.handleEvent(e));
+    });
+
     this.polylinePromise.resolve(this.polyline);
   }
 

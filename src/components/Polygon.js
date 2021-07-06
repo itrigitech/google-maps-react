@@ -4,7 +4,7 @@ var isEqual = require('lodash/isEqual');
 import { arePathsEqual } from '../lib/arePathsEqual';
 import { camelize } from '../lib/String';
 const evtNames = ['click', 'rightclick', 'mouseout', 'mouseover', 'mousemove'];
-const evtPathNames = ['set_at','insert_at', 'remove_at'];
+const evtPathNames = ['set_at', 'insert_at', 'remove_at'];
 
 const wrappedPromise = function() {
     var wrappedPromise = {},
@@ -88,6 +88,12 @@ export class Polygon extends React.Component {
 
     evtNames.forEach(e => {
       this.polygon.addListener(e, this.handleEvent(e));
+    });
+
+    evtPathNames.forEach(e => {
+      this.polygon.getPaths().forEach(path=>{
+        path.addListener(e, this.handleEvent(e));
+      })
     });
 
     this.polygonPromise.resolve(this.polygon);
