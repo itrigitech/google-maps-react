@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { arePathsEqual } from '../lib/arePathsEqual';
 import { camelize } from '../lib/String';
 const evtNames = ['click', 'rightclick', 'mouseout', 'mouseover'];
+var isEqual = require('lodash/isEqual');
 
 const wrappedPromise = function() {
     var wrappedPromise = {},
@@ -27,14 +28,14 @@ export class Circle extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { path, map } = this.props;
-    console.debug("test")
-    if (
-      this.propsChanged(prevProps) ||
-      map !== prevProps.map ||
-      !arePathsEqual(path, prevProps.path)
-    ) {
-      this.destroyCircle();
-      this.renderCircle();
+
+    if (!isEqual(prevProps, this.props)  ) {
+      if (prevProps.radius !== this.props.radius){
+        this.circle.setRadius(this.props.radius)
+      }else{
+        this.destroyCircle();
+        this.renderCircle();
+      }
     }
   }
 
