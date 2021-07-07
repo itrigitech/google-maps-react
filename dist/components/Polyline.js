@@ -246,10 +246,6 @@ var isEqual = require('lodash/isEqual');
     return Polyline.propTypes[e] = _propTypes2.default.func;
   });
 
-  evtPathNames.forEach(function (e) {
-    return Polyline.propTypes[e] = _propTypes2.default.func;
-  });
-
   Polyline.defaultProps = {
     name: 'Polyline'
   };
