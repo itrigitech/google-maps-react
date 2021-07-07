@@ -184,6 +184,14 @@ export class Map extends React.Component {
 
       this.map = new maps.Map(node, mapConfig);
 
+      if (this.props.typeMap){
+        var styledMapType = new google.maps.StyledMapType(
+            this.props.typeMap[0], {name:this.props.typeMap[1]}
+        );
+        this.map.mapTypes.set(this.props.typeMap[1], styledMapType);
+        this.map.setMapTypeId( this.props.mapType);
+      }
+
       evtNames.forEach(e => {
         this.listeners[e] = this.map.addListener(e, this.handleEvent(e));
       });
